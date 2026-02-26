@@ -15,8 +15,8 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-                    <img src="{{ asset('img/logo.svg') }}" alt="Studio Nội Thất logo" class="brand-logo">
-                    <span class="fw-bold text-uppercase d-none d-sm-inline">Studio Nội Thất</span>
+                    <img src="{{ $siteSetting?->logo_url ?: asset('img/logo.svg') }}" alt="{{ $siteSetting?->brand_name ?: 'Studio Nội Thất' }}logo" class="brand-logo">
+                    <span class="fw-bold text-uppercase d-none d-sm-inline">{{ $siteSetting?->brand_name ?: 'Studio Nội Thất' }}</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -52,23 +52,23 @@
         <div class="container py-4 py-md-5">
             <div class="row gy-4">
                 <div class="col-md-5">
-                    <h6 class="footer-title mb-2">CÔNG TY TNHH STUDIO NỘI THẤT</h6>
+                    <h6 class="footer-title mb-2">{{ $siteSetting?->company_name ?: 'CÔNG TY TNHH STUDIO NỘI THẤT BICSPACE' }}</h6>
                     <p class="footer-text mb-1">Thiết kế & thi công nội thất trọn gói cho căn hộ, nhà phố và văn phòng.</p>
-                    <p class="footer-text mb-0">MST: 0312345678</p>
+                    <p class="footer-text mb-0">MST: {{ $siteSetting?->tax_code ?: '0312345678' }}</p>
                 </div>
                 <div class="col-md-4">
                     <h6 class="footer-title mb-2">Thông tin liên hệ</h6>
-                    <p class="footer-text mb-1">Hotline: <a href="tel:0901234567" class="footer-link">0901 234 567</a></p>
-                    <p class="footer-text mb-1">Email: <a href="mailto:hello@studionoithat.vn" class="footer-link">hello@studionoithat.vn</a></p>
-                    <p class="footer-text mb-0">Địa chỉ: 123 Nguyễn Văn A, P. Bến Nghé, Q.1, TP.HCM</p>
+                    <p class="footer-text mb-1">Hotline: <a href="tel:{{ preg_replace('/\D+/', '', $siteSetting?->hotline ?: '0901 234 567') }}" class="footer-link">{{ $siteSetting?->hotline ?: '0901 234 567' }}</a></p>
+                    <p class="footer-text mb-1">Email: <a href="mailto:{{ $siteSetting?->email ?: 'hello@studionoithat.vn' }}" class="footer-link">{{ $siteSetting?->email ?: 'hello@studionoithat.vn' }}</a></p>
+                    <p class="footer-text mb-0">Địa chỉ: {{ $siteSetting?->address ?: '123 Nguyễn Văn A, P. Bến Nghé, Q.1, TP.HCM' }}</p>
                 </div>
                 <div class="col-md-3 text-md-end">
                     <h6 class="footer-title mb-2">Giờ làm việc</h6>
-                    <p class="footer-text mb-1">Thứ 2 - Thứ 7: 08:00 - 18:00</p>
+                    <p class="footer-text mb-1">{{ $siteSetting?->working_hours ?: 'Thứ 2 - Thứ 7: 08:00 - 18:00' }}</p>
                     <p class="footer-text mb-1">
                         <a href="{{ route('admin.login') }}" class="footer-link">Quản trị</a>
                     </p>
-                    <p class="footer-text mb-0">© {{ date('Y') }}Studio Nội Thất</p>
+                    <p class="footer-text mb-0">© {{ date('Y') }}{{ $siteSetting?->brand_name ?: 'Studio Nội Thất' }}</p>
                 </div>
             </div>
         </div>

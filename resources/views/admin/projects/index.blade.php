@@ -1,36 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Quản trị dự án nội thất')
+@section('page_title', 'Quản trị dự án')
 
 @section('content')
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="row mb-4 align-items-center">
-                <div class="col-md-6">
-                    <h1 class="h3 fw-semibold mb-0">Quản trị dự án</h1>
-                </div>
-                <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                    <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">
-                        Thêm dự án mới
-                    </a>
-                </div>
-            </div>
-
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <div class="table-responsive bg-white rounded shadow-sm">
-                <table class="table align-middle mb-0">
-                    <thead class="table-light">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Danh sách dự án</h3>
+            <a href="{{ route('admin.projects.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus mr-1"></i> Thêm dự án mới
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
                         <tr>
-                            <th scope="col">Tiêu đề</th>
-                            <th scope="col">Phong cách</th>
-                            <th scope="col">Diện tích</th>
-                            <th scope="col">Nổi bật</th>
-                            <th scope="col" class="text-end">Thao tác</th>
+                            <th>Tiêu đề</th>
+                            <th>Phong cách</th>
+                            <th>Diện tích</th>
+                            <th>Nổi bật</th>
+                            <th class="text-right">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,24 +31,18 @@
                                 <td>{{ $project->area }}</td>
                                 <td>
                                     @if ($project->is_featured)
-                                        <span class="badge text-bg-success">Featured</span>
+                                        <span class="badge badge-success">Featured</span>
                                     @else
-                                        <span class="badge text-bg-secondary">Normal</span>
+                                        <span class="badge badge-secondary">Normal</span>
                                     @endif
                                 </td>
-                                <td class="text-end">
-                                    <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-outline-secondary">
-                                        Xem
-                                    </a>
-                                    <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-sm btn-outline-primary">
-                                        Sửa
-                                    </a>
+                                <td class="text-right">
+                                    <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-outline-secondary">Xem</a>
+                                    <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-sm btn-outline-primary">Sửa</a>
                                     <form action="{{ route('admin.projects.destroy', $project) }}" method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa dự án này?');">
-                                            Xóa
-                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa dự án này?');">Xóa</button>
                                     </form>
                                 </td>
                             </tr>
@@ -72,11 +56,10 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="mt-3">
-                {{ $projects->links() }}
-            </div>
         </div>
-    </section>
+        <div class="card-footer clearfix">
+            {{ $projects->links() }}
+        </div>
+    </div>
 @endsection
 

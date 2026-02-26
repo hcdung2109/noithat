@@ -146,7 +146,7 @@
                 <div class="col-lg-8">
                     <h2 class="section-title">Dự án nổi bật</h2>
                     <p class="text-muted">
-                        Một vài không gian gần đây chúng tôi thực hiện cho khách hàng tại TP.HCM và Hà Nội.
+                        Danh sách dự án nổi bật được cập nhật trực tiếp từ hệ thống quản trị.
                     </p>
                 </div>
                 <div class="col-lg-4 text-lg-end">
@@ -155,69 +155,40 @@
                     </a>
                 </div>
             </div>
+
             <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm project-card">
-                        <img src="https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Phòng khách căn hộ hiện đại" class="card-img-top img-fluid rounded-top-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Căn hộ 2 phòng ngủ Vinhomes</h5>
-                            <p class="card-text text-muted mb-1">Phong cách Modern Luxury</p>
-                            <p class="card-text"><small class="text-muted">Diện tích 75m² · Thời gian 45 ngày</small></p>
+                @forelse ($featuredProjects as $project)
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm project-card">
+                            <img
+                                src="{{ $project->thumbnail_url ?: 'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=800' }}"
+                                alt="{{ $project->title }}"
+                                class="card-img-top img-fluid rounded-top-3"
+                            >
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $project->title }}</h5>
+                                <a href="{{ route('projects.show', $project) }}" class="stretched-link" aria-label="Xem chi tiết {{ $project->title }}"></a>
+                                @if ($project->style)
+                                    <p class="card-text text-muted mb-1">{{ $project->style }}</p>
+                                @endif
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        {{ $project->area ?: 'Đang cập nhật diện tích' }}
+                                        @if ($project->duration)
+                                            · {{ $project->duration }}
+                                        @endif
+                                    </small>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm project-card">
-                        <img src="https://images.pexels.com/photos/6587898/pexels-photo-6587898.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Bếp và bàn ăn" class="card-img-top img-fluid rounded-top-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Nhà phố Family Home</h5>
-                            <p class="card-text text-muted mb-1">Phong cách Scandinavian ấm áp</p>
-                            <p class="card-text"><small class="text-muted">Diện tích 120m² · Thời gian 60 ngày</small></p>
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-secondary mb-0">
+                            Chưa có dự án nổi bật. Vui lòng vào trang quản trị để thêm và đánh dấu dự án nổi bật.
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm project-card">
-                        <img src="https://images.pexels.com/photos/2747901/pexels-photo-2747901.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Không gian làm việc" class="card-img-top img-fluid rounded-top-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Văn phòng Creative Studio</h5>
-                            <p class="card-text text-muted mb-1">Không gian mở, đa chức năng</p>
-                            <p class="card-text"><small class="text-muted">Diện tích 180m² · Thời gian 40 ngày</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-4 mt-1">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm project-card">
-                        <img src="https://images.pexels.com/photos/2528118/pexels-photo-2528118.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Phòng ngủ hiện đại, tối giản" class="card-img-top img-fluid rounded-top-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Phòng ngủ Minimal Cozy</h5>
-                            <p class="card-text text-muted mb-1">Phong cách Minimalism ấm áp</p>
-                            <p class="card-text"><small class="text-muted">Diện tích 20m² · Thời gian 25 ngày</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm project-card">
-                        <img src="https://images.pexels.com/photos/3965515/pexels-photo-3965515.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Không gian phòng khách và bếp liên thông" class="card-img-top img-fluid rounded-top-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Căn hộ City View</h5>
-                            <p class="card-text text-muted mb-1">Phong cách Contemporary</p>
-                            <p class="card-text"><small class="text-muted">Diện tích 90m² · Thời gian 55 ngày</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm project-card">
-                        <img src="https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Quầy lễ tân văn phòng sáng tạo" class="card-img-top img-fluid rounded-top-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Reception Creative Hub</h5>
-                            <p class="card-text text-muted mb-1">Điểm nhấn thương hiệu ấn tượng</p>
-                            <p class="card-text"><small class="text-muted">Diện tích 40m² · Thời gian 30 ngày</small></p>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -291,33 +262,55 @@
                             <p class="text-muted mb-4">
                                 Hãy để lại thông tin, chúng tôi sẽ liên hệ trong vòng 24 giờ để tư vấn giải pháp phù hợp cho không gian của bạn.
                             </p>
-                            <form action="#" method="post">
+                            @if (session('consultation_status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('consultation_status') }}
+                                </div>
+                            @endif
+
+                            <form action="{{ route('consultations.store') }}" method="post">
+                                @csrf
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Họ và tên</label>
-                                        <input type="text" class="form-control" placeholder="Nguyễn Văn A">
+                                        <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Nguyễn Văn A">
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Số điện thoại</label>
-                                        <input type="tel" class="form-control" placeholder="0901 234 567">
+                                        <input type="tel" name="phone" value="{{ old('phone') }}" class="form-control @error('phone') is-invalid @enderror" placeholder="0901 234 567">
+                                        @error('phone')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" placeholder="email@domain.com">
+                                        <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="email@domain.com">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Loại không gian</label>
-                                        <select class="form-select">
-                                            <option value="" selected>Chọn loại không gian</option>
-                                            <option value="apartment">Căn hộ</option>
-                                            <option value="house">Nhà phố / Biệt thự</option>
-                                            <option value="office">Văn phòng</option>
-                                            <option value="other">Khác</option>
+                                        <select name="space_type" class="form-select @error('space_type') is-invalid @enderror">
+                                            <option value="" {{ old('space_type') ? '' : 'selected' }}>Chọn loại không gian</option>
+                                            <option value="Căn hộ" {{ old('space_type') === 'Căn hộ' ? 'selected' : '' }}>Căn hộ</option>
+                                            <option value="Nhà phố / Biệt thự" {{ old('space_type') === 'Nhà phố / Biệt thự' ? 'selected' : '' }}>Nhà phố / Biệt thự</option>
+                                            <option value="Văn phòng" {{ old('space_type') === 'Văn phòng' ? 'selected' : '' }}>Văn phòng</option>
+                                            <option value="Khác" {{ old('space_type') === 'Khác' ? 'selected' : '' }}>Khác</option>
                                         </select>
+                                        @error('space_type')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label">Nhu cầu của bạn</label>
-                                        <textarea class="form-control" rows="4" placeholder="Mô tả ngắn về hiện trạng và mong muốn của bạn"></textarea>
+                                        <textarea name="message" class="form-control @error('message') is-invalid @enderror" rows="4" placeholder="Mô tả ngắn về hiện trạng và mong muốn của bạn">{{ old('message') }}</textarea>
+                                        @error('message')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-12 d-flex justify-content-end mt-2">
                                         <button type="submit" class="btn btn-primary px-4">

@@ -4,51 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập quản trị</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
 </head>
-<body class="bg-light">
-    <main class="min-vh-100 d-flex align-items-center py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-5">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body p-4 p-md-5">
-                            <h1 class="h4 fw-semibold mb-2">Đăng nhập quản trị</h1>
-                            <p class="text-muted mb-4">Vui lòng đăng nhập để truy cập khu vực quản trị.</p>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="{{ route('home') }}"><b>Admin</b>Interior</a>
+    </div>
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $errors->first() }}
-                                </div>
-                            @endif
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <p class="h5 mb-0">Đăng nhập quản trị</p>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">Vui lòng đăng nhập để truy cập khu vực quản trị.</p>
 
-                            <form action="{{ route('admin.login.submit') }}" method="POST" novalidate>
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input id="email" name="email" type="email" value="{{ old('email') }}" class="form-control" required autofocus>
-                                </div>
+            @if ($errors->any())
+                <div class="alert alert-danger" role="alert">
+                    {{ $errors->first() }}
+                </div>
+            @endif
 
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Mật khẩu</label>
-                                    <input id="password" name="password" type="password" class="form-control" required>
-                                </div>
+            <form action="{{ route('admin.login.submit') }}" method="POST" novalidate>
+                @csrf
 
-                                <div class="form-check mb-4">
-                                    <input class="form-check-input" type="checkbox" value="1" id="remember" name="remember">
-                                    <label class="form-check-label" for="remember">
-                                        Ghi nhớ đăng nhập
-                                    </label>
-                                </div>
-
-                                <button type="submit" class="btn btn-dark w-100">Đăng nhập</button>
-                            </form>
+                <div class="input-group mb-3">
+                    <input id="email" name="email" type="email" value="{{ old('email') }}" class="form-control" placeholder="Email" required autofocus>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="input-group mb-3">
+                    <input id="password" name="password" type="password" class="form-control" placeholder="Mật khẩu" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="remember" name="remember" value="1">
+                            <label for="remember">Ghi nhớ đăng nhập</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 </body>
 </html>

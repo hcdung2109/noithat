@@ -76,21 +76,38 @@
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         <label class="form-label">Ảnh đại diện (URL)</label>
         <input
             type="text"
             name="thumbnail_url"
             class="form-control @error('thumbnail_url') is-invalid @enderror"
             value="{{ old('thumbnail_url', $project->thumbnail_url) }}"
+            placeholder="https://... hoặc để trống nếu upload file"
         >
         @error('thumbnail_url')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
-        <div class="form-text">
-            Dán đường dẫn ảnh (có thể dùng ảnh từ Pexels trong giai đoạn demo).
-        </div>
     </div>
+    <div class="col-md-6">
+        <label class="form-label">Upload ảnh đại diện từ máy tính</label>
+        <input
+            type="file"
+            name="thumbnail_file"
+            accept=".jpg,.jpeg,.png,.webp"
+            class="form-control @error('thumbnail_file') is-invalid @enderror"
+        >
+        @error('thumbnail_file')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+        <div class="form-text">Tối đa 4MB, ưu tiên ảnh ngang để hiển thị đẹp trên danh sách dự án.</div>
+    </div>
+    @if (!empty($project->thumbnail_url))
+        <div class="col-12">
+            <label class="form-label d-block">Ảnh hiện tại</label>
+            <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" style="max-height: 100px; width: auto;" class="border rounded p-1 bg-light">
+        </div>
+    @endif
     <div class="col-md-12">
         <label class="form-label">Mô tả ngắn</label>
         <textarea
@@ -105,12 +122,13 @@
     <div class="col-md-12">
         <label class="form-label">Nội dung chi tiết</label>
         <textarea
+            id="project-content-editor"
             name="content"
-            rows="6"
+            rows="8"
             class="form-control @error('content') is-invalid @enderror"
         >{{ old('content', $project->content) }}</textarea>
         @error('content')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback d-block">{{ $message }}</div>
         @enderror
     </div>
     <div class="col-md-12">
@@ -134,4 +152,3 @@
         </button>
     </div>
 </div>
-
