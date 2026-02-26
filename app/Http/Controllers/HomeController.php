@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -11,7 +12,13 @@ class HomeController extends Controller
      */
     public function index(): View
     {
-        return view('interior.home');
+        $featuredProjects = Project::query()
+            ->where('is_featured', true)
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('interior.home', compact('featuredProjects'));
     }
 
     /**
@@ -22,4 +29,3 @@ class HomeController extends Controller
         return view('interior.about');
     }
 }
-

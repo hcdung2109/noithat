@@ -10,6 +10,10 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.auth.login');
     }
 
@@ -30,7 +34,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('admin.dashboard'));
+        return redirect()->route('admin.dashboard');
     }
 
     public function logout(Request $request)

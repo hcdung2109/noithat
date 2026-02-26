@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -32,6 +33,7 @@ class ProjectController extends Controller
             'area' => ['nullable', 'string', 'max:255'],
             'duration' => ['nullable', 'string', 'max:255'],
             'thumbnail_url' => ['nullable', 'string', 'max:2048'],
+            'thumbnail_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'is_featured' => ['nullable', 'boolean'],
             'excerpt' => ['nullable', 'string'],
             'content' => ['nullable', 'string'],
@@ -41,7 +43,13 @@ class ProjectController extends Controller
             $data['slug'] = \Str::slug($data['title']) . '-' . uniqid();
         }
 
+        if ($request->hasFile('thumbnail_file')) {
+            $path = $request->file('thumbnail_file')->store('projects', 'public');
+            $data['thumbnail_url'] = '/storage/' . $path;
+        }
+
         $data['is_featured'] = $request->boolean('is_featured');
+        unset($data['thumbnail_file']);
 
         Project::create($data);
 
@@ -71,6 +79,7 @@ class ProjectController extends Controller
             'area' => ['nullable', 'string', 'max:255'],
             'duration' => ['nullable', 'string', 'max:255'],
             'thumbnail_url' => ['nullable', 'string', 'max:2048'],
+            'thumbnail_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'is_featured' => ['nullable', 'boolean'],
             'excerpt' => ['nullable', 'string'],
             'content' => ['nullable', 'string'],
@@ -80,7 +89,18 @@ class ProjectController extends Controller
             $data['slug'] = \Str::slug($data['title']) . '-' . $project->id;
         }
 
+        if ($request->hasFile('thumbnail_file')) {
+            if (!empty($project->thumbnail_url) && str_starts_with($project->thumbnail_url, '/storage/')) {
+                $oldPath = ltrim(str_replace('/storage/', '', $project->thumbnail_url), '/');
+                Storage::disk('public')->delete($oldPath);
+            }
+
+            $path = $request->file('thumbnail_file')->store('projects', 'public');
+            $data['thumbnail_url'] = '/storage/' . $path;
+        }
+
         $data['is_featured'] = $request->boolean('is_featured');
+        unset($data['thumbnail_file']);
 
         $project->update($data);
 
@@ -91,6 +111,11 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
+        if (!empty($project->thumbnail_url) && str_starts_with($project->thumbnail_url, '/storage/')) {
+            $oldPath = ltrim(str_replace('/storage/', '', $project->thumbnail_url), '/');
+            Storage::disk('public')->delete($oldPath);
+        }
+
         $project->delete();
 
         return redirect()
