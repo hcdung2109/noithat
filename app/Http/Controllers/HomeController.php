@@ -15,7 +15,7 @@ class HomeController extends Controller
         $featuredProjects = Project::query()
             ->where('is_featured', true)
             ->latest()
-            ->take(6)
+            ->take(9)
             ->get();
 
         return view('interior.home', compact('featuredProjects'));

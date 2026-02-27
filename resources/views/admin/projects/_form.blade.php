@@ -108,6 +108,40 @@
             <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" style="max-height: 100px; width: auto;" class="border rounded p-1 bg-light">
         </div>
     @endif
+    <div class="col-12">
+        <label class="form-label">Ảnh gallery (upload nhiều ảnh)</label>
+        <input
+            type="file"
+            name="gallery_files[]"
+            accept=".jpg,.jpeg,.png,.webp"
+            class="form-control @error('gallery_files') is-invalid @enderror @error('gallery_files.*') is-invalid @enderror"
+            multiple
+        >
+        @error('gallery_files')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+        @error('gallery_files.*')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
+        <div class="form-text">Chọn nhiều ảnh (JPG, PNG, WebP). Tối đa 4MB/ảnh. Ảnh sẽ hiển thị trong trang chi tiết dự án.</div>
+    </div>
+    @if ($project->exists && $project->images->isNotEmpty())
+        <div class="col-12">
+            <label class="form-label d-block">Ảnh gallery hiện tại</label>
+            <div class="d-flex flex-wrap gap-2 align-items-start">
+                @foreach ($project->images as $img)
+                    <div class="position-relative border rounded p-1 bg-light" style="width: 100px;">
+                        <img src="{{ $img->path }}" alt="" class="img-fluid rounded" style="height: 80px; width: 100%; object-fit: cover;">
+                        <label class="position-absolute top-0 end-0 m-1 form-check mb-0">
+                            <input type="checkbox" name="remove_image_ids[]" value="{{ $img->id }}" class="form-check-input bg-danger">
+                            <span class="visually-hidden">Xóa</span>
+                        </label>
+                        <small class="d-block text-center text-muted">Xóa</small>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
     <div class="col-md-12">
         <label class="form-label">Mô tả ngắn</label>
         <textarea

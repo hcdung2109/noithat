@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -30,5 +31,13 @@ class Project extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Gallery images (multiple images per project).
+     */
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProjectImage::class)->orderBy('sort_order');
     }
 }
