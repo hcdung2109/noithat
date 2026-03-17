@@ -15,7 +15,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-                    <img src="{{ $siteSetting?->logo_url ?: asset('img/logo.svg') }}" alt="{{ $siteSetting?->brand_name ?: 'Studio Nội Thất' }}logo" class="brand-logo">
+                    <img src="{{ $siteSetting?->logo_url ?: asset('img/logo.svg') }}" alt="{{ $siteSetting?->brand_name ?: 'Studio Nội Thất' }} logo" class="brand-logo">
                     <span class="fw-bold text-uppercase d-none d-sm-inline">{{ $siteSetting?->brand_name ?: 'Studio Nội Thất' }}</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">

@@ -145,6 +145,7 @@
     <div class="col-md-12">
         <label class="form-label">Mô tả ngắn</label>
         <textarea
+            id="project-excerpt-editor"
             name="excerpt"
             rows="2"
             class="form-control @error('excerpt') is-invalid @enderror"

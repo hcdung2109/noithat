@@ -305,12 +305,39 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <div class="col-12 d-none">
+                                        {{-- Honeypot field to catch bots (humans won't see this) --}}
+                                        <label class="form-label">Website</label>
+                                        <input type="text" name="website" value="" class="form-control" autocomplete="off">
+                                    </div>
                                     <div class="col-12">
                                         <label class="form-label">Nhu cầu của bạn</label>
                                         <textarea name="message" class="form-control @error('message') is-invalid @enderror" rows="4" placeholder="Mô tả ngắn về hiện trạng và mong muốn của bạn">{{ old('message') }}</textarea>
                                         @error('message')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Xác nhận bạn không phải robot</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="captchaQuestion">{{ $captchaQuestion ?? '...' }} =</span>
+                                            <input
+                                                type="text"
+                                                inputmode="numeric"
+                                                name="captcha"
+                                                value="{{ old('captcha') }}"
+                                                class="form-control @error('captcha') is-invalid @enderror"
+                                                placeholder="Kết quả"
+                                                required
+                                            >
+                                            <button type="button" class="btn btn-outline-secondary" id="refreshCaptcha" aria-label="Đổi câu hỏi">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                            @error('captcha')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-text">Bấm nút làm mới nếu bạn muốn đổi câu hỏi.</div>
                                     </div>
                                     <div class="col-12 d-flex justify-content-end mt-2">
                                         <button type="submit" class="btn btn-primary px-4">
@@ -325,5 +352,29 @@
             </div>
         </div>
     </section>
+
+    @push('scripts')
+        <script>
+            (function () {
+                var btn = document.getElementById('refreshCaptcha');
+                var qEl = document.getElementById('captchaQuestion');
+                if (!btn || !qEl) return;
+
+                btn.addEventListener('click', async function () {
+                    btn.disabled = true;
+                    try {
+                        var res = await fetch("{{ route('consultations.captcha') }}", { headers: { "Accept": "application/json" } });
+                        if (!res.ok) throw new Error('Bad response');
+                        var data = await res.json();
+                        if (data && data.question) qEl.textContent = data.question + ' =';
+                    } catch (e) {
+                        // ignore
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+            })();
+        </script>
+    @endpush
 @endsection
 

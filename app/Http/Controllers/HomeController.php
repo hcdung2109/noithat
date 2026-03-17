@@ -18,7 +18,20 @@ class HomeController extends Controller
             ->take(9)
             ->get();
 
-        return view('interior.home', compact('featuredProjects'));
+        // Ensure captcha exists (question/answer issued in session)
+        if (! session()->has('consultation_captcha_question')) {
+            $a = random_int(1, 9);
+            $b = random_int(1, 9);
+            session([
+                'consultation_captcha_question' => "{$a} + {$b}",
+                'consultation_captcha_answer' => hash('sha256', (string) ($a + $b) . '|' . session()->getId()),
+                'consultation_captcha_issued_at' => now()->timestamp,
+            ]);
+        }
+
+        $captchaQuestion = session('consultation_captcha_question');
+
+        return view('interior.home', compact('featuredProjects', 'captchaQuestion'));
     }
 
     /**

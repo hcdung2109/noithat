@@ -15,6 +15,16 @@
             branding: false,
             content_style: 'body { font-family: Source Sans Pro, sans-serif; font-size:14px }'
         });
+
+        tinymce.init({
+            selector: '#project-excerpt-editor',
+            height: 160,
+            menubar: false,
+            plugins: 'link lists code',
+            toolbar: 'undo redo | bold italic underline | bullist numlist | link | removeformat | code',
+            branding: false,
+            content_style: 'body { font-family: Source Sans Pro, sans-serif; font-size:14px }'
+        });
     </script>
 @endpush
 

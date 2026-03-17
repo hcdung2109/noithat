@@ -74,6 +74,7 @@ return [
     */
 
     'links' => [
+        // Standard link: public/storage -> storage/app/public (served at /storage/)
         public_path('storage') => storage_path('app/public'),
     ],
 

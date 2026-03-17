@@ -15,7 +15,12 @@ Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
 
 Route::get('/du-an', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/du-an/{project}', [ProjectController::class, 'show'])->name('projects.show');
-Route::post('/consultations', [ConsultationRequestController::class, 'store'])->name('consultations.store');
+Route::get('/consultations/captcha', [ConsultationRequestController::class, 'captcha'])
+    ->middleware('throttle:30,1')
+    ->name('consultations.captcha');
+Route::post('/consultations', [ConsultationRequestController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('consultations.store');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -28,7 +33,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/settings', [SiteSettingController::class, 'edit'])->name('settings.edit');
         Route::put('/settings', [SiteSettingController::class, 'update'])->name('settings.update');
-        Route::get('/consultations', [AdminConsultationRequestController::class, 'index'])->name('consultations.index');
+        Route::resource('consultations', AdminConsultationRequestController::class)
+            ->except(['show']);
         Route::resource('projects', AdminProjectController::class);
     });
 });

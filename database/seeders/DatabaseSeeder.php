@@ -15,12 +15,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Ensure default test user exists
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => 'password', // default factory-like password
+            ],
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Ensure admin account exists
+        User::firstOrCreate(
+            ['email' => 'binh@gmail.com'],
+            [
+                'name' => 'Binh',
+                'password' => '12345678', // will be hashed by cast
+            ],
+        );
 
         $this->call(ProjectSeeder::class);
     }
